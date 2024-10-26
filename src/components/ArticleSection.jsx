@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import blogPosts from "../data/blogPosts";
+import { useState } from "react";
 
 function BlogCard({ image, category, title, description, author, date }) {
   return (
@@ -50,6 +51,7 @@ function BlogCard({ image, category, title, description, author, date }) {
 
 function ArticleSection() {
   const categories = ["Highlight", "Cat", "Inspiration", "General"];
+  const [category, setCategory] = useState("Highlight");
   return (
     <div className="w-full max-w-7xl mx-auto md:px-6 lg:px-8 mb-10">
       <h2 className="text-xl font-bold mb-4 px-4">Latest articles</h2>
@@ -65,7 +67,10 @@ function ArticleSection() {
           </div>
         </div>
         <div className="md:hidden w-full bg-white">
-          <Select value="Highlight">
+          <Select
+            value={category}
+            onValueChange={(value) => setCategory(value)}
+          >
             <SelectTrigger className="w-full py-3 rounded-sm text-muted-foreground focus:ring-0 focus:ring-offset-0 focus:border-muted-foreground">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
@@ -81,21 +86,17 @@ function ArticleSection() {
           </Select>
         </div>
         <div className="hidden md:flex space-x-2">
-          <button className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium bg-[#DAD6D1]">
-            Highlight
-          </button>
-
-          {categories.slice(1).map((cat) => {
-            return (
-              <button
-                key={cat}
-                className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium hover:bg-muted
-              "
-              >
-                {cat}
-              </button>
-            );
-          })}
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={`px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium ${
+                category === cat ? "bg-[#DAD6D1]" : "hover:bg-muted"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
       </div>
       <article className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-0">
