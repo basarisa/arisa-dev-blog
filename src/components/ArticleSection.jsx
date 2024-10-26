@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/select";
 import blogPosts from "../data/blogPosts";
 
-
 function BlogCard({ image, category, title, description, author, date }) {
   return (
     <div className="flex flex-col gap-4">
@@ -50,6 +49,7 @@ function BlogCard({ image, category, title, description, author, date }) {
 }
 
 function ArticleSection() {
+  const categories = ["Highlight", "Cat", "Inspiration", "General"];
   return (
     <div className="w-full max-w-7xl mx-auto md:px-6 lg:px-8 mb-10">
       <h2 className="text-xl font-bold mb-4 px-4">Latest articles</h2>
@@ -65,92 +65,53 @@ function ArticleSection() {
           </div>
         </div>
         <div className="md:hidden w-full bg-white">
-          <Select value="highlight">
-            <SelectTrigger className="w-full py-3 rounded-sm text-muted-foreground">
+          <Select value="Highlight">
+            <SelectTrigger className="w-full py-3 rounded-sm text-muted-foreground focus:ring-0 focus:ring-offset-0 focus:border-muted-foreground">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="highlight">Highlight</SelectItem>
-              <SelectItem value="cat">Cat</SelectItem>
-              <SelectItem value="inspiration">Inspiration</SelectItem>
-              <SelectItem value="general">General</SelectItem>
+              {categories.map((cat) => {
+                return (
+                  <SelectItem key={cat} value={cat}>
+                    {cat}
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
         </div>
         <div className="hidden md:flex space-x-2">
-          <button
-            className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium bg-[#DAD6D1]
-            "
-          >
+          <button className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium bg-[#DAD6D1]">
             Highlight
           </button>
-          <button
-            className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium bg-[muted]
-            "
-          >
-            Cat
-          </button>
-          <button
-            className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium bg-[muted]
-            "
-          >
-            Inspiration
-          </button>
-          <button
-            className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium bg-[muted]
-            "
-          >
-            General
-          </button>
+
+          {categories.slice(1).map((cat) => {
+            return (
+              <button
+                key={cat}
+                className="px-4 py-3 transition-colors rounded-sm text-sm text-muted-foreground font-medium hover:bg-muted
+              "
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
       </div>
       <article className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-0">
-        <BlogCard
-          image={blogPosts[0].image}
-          category={blogPosts[0].category}
-          title={blogPosts[0].title}
-          description={blogPosts[0].description}
-          author={blogPosts[0].author}
-          date={blogPosts[0].date}
-        />
-        <BlogCard
-          image={blogPosts[1].image}
-          category={blogPosts[1].category}
-          title={blogPosts[1].title}
-          description={blogPosts[1].description}
-          author={blogPosts[1].author}
-          date={blogPosts[1].date}
-        />
-        <BlogCard
-          image={blogPosts[2].image}
-          category={blogPosts[2].category}
-          title={blogPosts[2].title}
-          description={blogPosts[2].description}
-          author={blogPosts[2].author}
-          date={blogPosts[2].date}
-        />
-        <BlogCard
-          image={blogPosts[3].image}
-          category={blogPosts[3].category}
-          title={blogPosts[3].title}
-          description={blogPosts[3].description}
-          author={blogPosts[3].author}
-          date={blogPosts[3].date}
-        />
-        <BlogCard
-          image={blogPosts[4].image}
-          category={blogPosts[4].category}
-          title={blogPosts[4].title}
-          description={blogPosts[4].description}
-          author={blogPosts[4].author}
-          date={blogPosts[4].date}
-        />
-        <BlogCard image={blogPosts[5].image}
-          category={blogPosts[5].category}
-          title={blogPosts[5].title}
-          description={blogPosts[5].description}
-          author={blogPosts[5].author}
-          date={blogPosts[5].date}/>
+        {blogPosts.map((blog, index) => {
+          return (
+            <BlogCard
+              key={index}
+              image={blog.image}
+              category={blog.category}
+              title={blog.title}
+              description={blog.description}
+              author={blog.author}
+              date={blog.date}
+            />
+          );
+        })}
       </article>
     </div>
   );
